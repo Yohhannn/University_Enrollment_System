@@ -1,0 +1,219 @@
+﻿@{
+    ViewBag.Title = "Cebu Technological University";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome (for icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ctu-orange: #e65c00;
+            --ctu-yellow: #ffcc00;
+            --ctu-dark: #333;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+            url('https://www.ctu.edu.ph/images/bg-texture.png');
+            background-size: cover;
+            color: var(--ctu-dark);
+        }
+
+        .ctu-bg-primary {
+            background-color: var(--ctu-orange) !important;
+        }
+
+        .ctu-text-primary {
+            color: var(--ctu-orange) !important;
+        }
+
+        .ctu-btn-primary {
+            background-color: var(--ctu-orange);
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .ctu-btn-primary:hover {
+            background-color: #cc5200;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(230, 92, 0, 0.3);
+        }
+
+        .ctu-btn-outline {
+            border: 2px solid var(--ctu-orange);
+            color: var(--ctu-orange);
+            background: transparent;
+        }
+
+        .ctu-btn-outline:hover {
+            background-color: var(--ctu-orange);
+            color: white;
+        }
+
+        .hero-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .ctu-logo {
+            height: 100px;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--ctu-orange);
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark ctu-bg-primary py-3">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/4c/Cebu_Technological_University_Logo.png/220px-Cebu_Technological_University_Logo.png"
+                 alt="CTU Logo" style="height: 40px; margin-right: 10px;">
+            <span class="fw-bold">CEBU TECHNOLOGICAL UNIVERSITY</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Academics</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Admission</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+                <li class="nav-item ms-lg-3">
+                    <a href="@Url.Action("Login", "Account")" class="btn ctu-btn-outline">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/4c/Cebu_Technological_University_Logo.png/220px-Cebu_Technological_University_Logo.png"
+                     alt="CTU Logo" class="ctu-logo">
+                <h1 class="display-4 fw-bold mb-4">Welcome to <span class="ctu-text-primary">CTU</span></h1>
+                <p class="lead mb-4">Cebu Technological University is committed to providing quality education through innovative instruction, research, and community engagement.</p>
+                <div class="d-flex gap-3">
+                    <a href="@Url.Action("Login", "Account")" class="btn ctu-btn-primary">
+                        <i class="fas fa-sign-in-alt me-2"></i> Student/Faculty Login
+                    </a>
+                    <a href="#" class="btn btn-outline-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <img src="https://www.ctu.edu.ph/images/campus-image.jpg" alt="CTU Campus" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col">
+                <h2 class="fw-bold">Why Choose <span class="ctu-text-primary">CTU</span>?</h2>
+                <p class="text-muted">Excellence, Innovation, and Service</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="text-center p-4 bg-white rounded shadow-sm">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h4>Quality Education</h4>
+                    <p class="text-muted">CHED-recognized programs with industry-aligned curriculum.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center p-4 bg-white rounded shadow-sm">
+                    <div class="feature-icon">
+                        <i class="fas fa-flask"></i>
+                    </div>
+                    <h4>Research Focus</h4>
+                    <p class="text-muted">Cutting-edge research facilities and faculty support.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center p-4 bg-white rounded shadow-sm">
+                    <div class="feature-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h4>Community Engagement</h4>
+                    <p class="text-muted">Strong partnerships with local industries and communities.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="ctu-bg-primary text-white py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h5>About CTU</h5>
+                <p>Cebu Technological University is a premier state university in the Philippines.</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Admission</a></li>
+                    <li><a href="#" class="text-white">Academic Programs</a></li>
+                    <li><a href="#" class="text-white">Research</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5>Contact</h5>
+                <p><i class="fas fa-map-marker-alt me-2"></i> M.J. Cuenco Ave, Cebu City</p>
+                <p><i class="fas fa-phone me-2"></i> (032) 123 4567</p>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center">
+            <p class="mb-0">&copy; 2025 Cebu Technological University. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
