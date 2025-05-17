@@ -13,18 +13,23 @@ namespace University_Enrollment_System.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public string Helloworld()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            return "Hello Woasddsadrld";
         }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        
+        // public ActionResult About()
+        // {
+        //     ViewBag.Message = "Your application description page.";
+        //
+        //     return View();
+        // }
+        //
+        // public ActionResult Contact()
+        // {
+        //     ViewBag.Message = "Your contact page.";
+        //
+        //     return View();
+        // }
     }
 }
