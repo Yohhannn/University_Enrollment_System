@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Fresh_University_Enrollment.Controllers.Auth
+namespace University_Enrollment_System.Controllers.Auth
 {
     public class LoginController : Controller
     {

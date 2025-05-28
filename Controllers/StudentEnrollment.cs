@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Mvc;
-using Fresh_University_Enrollment.Models;
 using Npgsql;
+using University_Enrollment_System.Models;
 
-namespace Fresh_University_Enrollment.Controllers
+namespace University_Enrollment_System.Controllers
 {
     
     
@@ -15,7 +15,6 @@ namespace Fresh_University_Enrollment.Controllers
 
 [HttpGet]
 public JsonResult GetAvailableSubjects(string cur_year_level, string cur_semester, string prog_code)
-
 {
     try
     {
@@ -32,6 +31,7 @@ public JsonResult GetAvailableSubjects(string cur_year_level, string cur_semeste
                     se.tsl_start_time,
                     se.tsl_end_time,
                     se.tsl_day,
+                    s.room,
                     c.crs_units
                 FROM schedule s
                 JOIN course c ON s.crs_code = c.crs_code
@@ -43,7 +43,6 @@ public JsonResult GetAvailableSubjects(string cur_year_level, string cur_semeste
 
             using (var cmd = new NpgsqlCommand(query, conn))
             {
-                // cmd.Parameters.AddWithValue("@crs_code", crs_code);
                 cmd.Parameters.AddWithValue("@cur_year_level", cur_year_level);
                 cmd.Parameters.AddWithValue("@cur_semester", cur_semester);
                 cmd.Parameters.AddWithValue("@prog_code", prog_code);
@@ -65,6 +64,7 @@ public JsonResult GetAvailableSubjects(string cur_year_level, string cur_semeste
 
                         var startTime = reader["tsl_start_time"] == DBNull.Value ? "" : reader["tsl_start_time"].ToString();
                         var endTime = reader["tsl_end_time"] == DBNull.Value ? "" : reader["tsl_end_time"].ToString();
+                        var room = reader["room"]?.ToString() ?? "N/A";
 
                         subjects.Add(new SubjectViewModel
                         {
@@ -72,7 +72,7 @@ public JsonResult GetAvailableSubjects(string cur_year_level, string cur_semeste
                             Title = reader["crs_title"]?.ToString(),
                             Time = $"{startTime} - {endTime}",
                             Days = dayStr,
-                            Room = "N/A",
+                            Room = room,
                             Units = Convert.ToInt32(reader["crs_units"])
                         });
                     }
@@ -87,6 +87,7 @@ public JsonResult GetAvailableSubjects(string cur_year_level, string cur_semeste
         return Json(new { error = ex.Message, stackTrace = ex.StackTrace }, JsonRequestBehavior.AllowGet);
     }
 }
+
 
 
 
@@ -218,6 +219,44 @@ public JsonResult GetAvailableSubjects(string cur_year_level, string cur_semeste
 
             return academicYears;
         }
+        
+        
+        
+        [HttpPost]
+        public JsonResult SubmitEnrollment(EnrollmentViewModel model)
+        {
+            try
+            {
+                using (var conn = new NpgsqlConnection(_connectionString))
+                {
+                    conn.Open();
+
+                    string query = @"
+                INSERT INTO enrollment (enrol_status, enrol_date, enrol_yr_level, enrol_sem, stud_id, ay_code)
+                VALUES (@status, @date, @yrlevel, @sem, @studId, @ayCode)";
+
+                    using (var cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@status", model.EnrolStatus);
+                        cmd.Parameters.AddWithValue("@date", model.EnrolDate);
+                        cmd.Parameters.AddWithValue("@yrlevel", model.EnrolYrLevel);
+                        cmd.Parameters.AddWithValue("@sem", model.EnrolSem);
+                        cmd.Parameters.AddWithValue("@studId", model.StudId);
+                        // cmd.Parameters.AddWithValue("@crsCode", model.CrsCode);
+                        cmd.Parameters.AddWithValue("@ayCode", model.AyCode);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                return Json(new { success = true, message = "Enrollment submitted successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, error = ex.Message });
+            }
+        }
+
 
     }
 }

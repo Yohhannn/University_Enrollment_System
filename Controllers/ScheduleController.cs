@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Fresh_University_Enrollment.Models;
 using Npgsql;
+using University_Enrollment_System.Models;
 
-namespace Fresh_University_Enrollment.Controllers
+namespace University_Enrollment_System.Controllers
 {
     public class ScheduleController : Controller
     {
@@ -61,7 +61,10 @@ namespace Fresh_University_Enrollment.Controllers
             using (var conn = new NpgsqlConnection(_connectionString))
             {
                 conn.Open();
-                using (var cmd = new NpgsqlCommand("SELECT schd_id, crs_code, room FROM schedule", conn))
+                using (var cmd = new NpgsqlCommand(@"
+            SELECT s.schd_id, s.crs_code, s.room, c.crs_title 
+            FROM schedule s
+            JOIN course c ON s.crs_code = c.crs_code", conn))
                 {
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -71,7 +74,8 @@ namespace Fresh_University_Enrollment.Controllers
                             {
                                 SchdId = reader.GetInt32(0),
                                 CrsCode = reader.GetString(1),
-                                Room = reader.GetString(2)
+                                Room = reader.GetString(2),
+                                CrsTitle = reader.GetString(3)
                             });
                         }
                     }

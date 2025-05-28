@@ -1,4 +1,4 @@
-namespace Fresh_University_Enrollment.Models;
+namespace University_Enrollment_System.Models;
 
 public class SubjectViewModel
 {
@@ -6,6 +6,6 @@ public class SubjectViewModel
     public string Title { get; set; }
     public string Time { get; set; }
     public string Days { get; set; }
-    public string Room { get; set; } = "N/A";
+    public string Room { get; set; } // Ensure  this exists
     public int Units { get; set; }
 }

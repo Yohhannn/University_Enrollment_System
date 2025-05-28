@@ -2,11 +2,11 @@
 using System.Configuration;
 using System.Web.Mvc;
 using System.Web.Mvc.Filters;
-using Fresh_University_Enrollment.Models;
-using Fresh_University_Enrollment.Utilities;
 using Npgsql;
+using University_Enrollment_System.Models;
+using University_Enrollment_System.Utilities;
 
-namespace Fresh_University_Enrollment.Controllers.Auth
+namespace University_Enrollment_System.Controllers.Auth
 {
     [AllowAnonymous]
     public class AuthController : Controller

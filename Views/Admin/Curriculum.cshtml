@@ -66,7 +66,7 @@
                 <select class="form-select" id="programSelect" name="programSelect">
                     <option value="" selected disabled>Choose Program...</option>
                     @{
-                        var programs = ViewBag.Programs as List<Fresh_University_Enrollment.Models.Program>;
+                        var programs = ViewBag.Programs as List<University_Enrollment_System.Models.Program>;
                     }
                     @if (programs?.Any() == true)
                     {
@@ -86,7 +86,7 @@
                 <select class="form-select" id="academicYearSelect" name="academicYearSelect" disabled>
                     <option value="" selected disabled>Choose Academic Year...</option>
                         @{
-                            var academicYears = ViewBag.AcademicYears as List<Fresh_University_Enrollment.Models.AcademicYear>;
+                            var academicYears = ViewBag.AcademicYears as List<University_Enrollment_System.Models.AcademicYear>;
                         }
                         @if (academicYears?.Any() == true)
                         {

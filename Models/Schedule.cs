@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Fresh_University_Enrollment.Models;
+namespace University_Enrollment_System.Models;
 
 public class Schedule
 {
@@ -8,7 +8,10 @@ public class Schedule
     
     [Required]
     public string CrsCode { get; set; }
+
     public string Room { get; set; }
-    
     public string Description { get; set; }
+
+    // New property:
+    public string CrsTitle { get; set; }  // This holds crs_title from Course table
 }
