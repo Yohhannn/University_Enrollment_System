@@ -156,6 +156,11 @@ namespace University_Enrollment_System
             
           
             // Add this specific route before the default route
+            routes.MapRoute(
+                name: "StudentEnrollmentSuccesss",
+                url: "StudentEnrollment/EnrollmentSuccesss",
+                defaults: new { controller = "StudentEnrollment", action = "EnrollmentSuccesss" }
+            );
 
             routes.MapRoute(
                 name: "StudentEnrollment",

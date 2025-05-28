@@ -179,10 +179,9 @@
                             <tr>
                                 <th>COURSE CODE</th>
                                 <th>DESCRIPTIVE TITLE</th>
-                                <th>Time</th>
-                                <th>Days</th>
-                                <th>Room</th>
-                                <th>Units</th>
+                                <th>UNITS</th>
+                                <th>LEC</th>
+                                <th>LAB</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -197,10 +196,9 @@
                             <tr>
                                 <th>COURSE CODE</th>
                                 <th>DESCRIPTIVE TITLE</th>
-                                <th>Time</th>
-                                <th>Days</th>
-                                <th>Room</th>
-                                <th>Units</th>
+                                <th>UNITS</th>
+                                <th>LEC</th>
+                                <th>LAB</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -212,6 +210,36 @@
                 </div>
                 <button type="submit" class="btn btn-primary mt-4">CONFIRM ENROLLMENT</button>
             }
+        </div>
+    </div>
+</div>
+
+<!-- Time Slot Modal -->
+<div class="modal fade" id="timeSlotModal" tabindex="-1" aria-labelledby="timeSlotModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="timeSlotModalLabel">Select a Time Slot</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Room</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody id="timeSlotTableBody">
+                    <!-- Dynamic session rows go here -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
         </div>
     </div>
 </div>
@@ -253,62 +281,185 @@
                     subjects.forEach(sub => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${sub.CourseCode}</td>
-                            <td>${sub.Title}</td>
-                            <td>${sub.Time}</td>
-                            <td>${sub.Days}</td>
-                            <td>${sub.Room}</td>
-                            <td class="units-cell">${sub.Units}</td>
-                            <td><button type="button" class="btn btn-success btn-sm add-subject-btn">Add</button></td>
-                        `;
+    <td>${sub.CourseCode}</td>
+    <td>${sub.Title}</td>
+    <td>${sub.Units}</td>
+    <td>${sub.Lec}</td>
+    <td>${sub.Lab}</td>
+    <td><button type="button" class="btn btn-success btn-sm add-subject-btn">Add</button></td>
+`;
                         availableSubjectsTableBody.appendChild(row);
                     });
                 })
                 .catch(error => console.error('Error fetching subjects:', error));
         }
+        function convertTimeToMinutes(timeStr) {
+            const [time, period] = timeStr.split(" ");
+            let [hours, minutes] = time.split(":").map(Number);
 
-        availableSubjectsTableBody.addEventListener('click', function (e) {
-            if (e.target.classList.contains('add-subject-btn')) {
-                const row = e.target.closest('tr');
-                const courseCode = row.children[0].textContent;
-                const time = row.children[2].textContent;
-                const days = row.children[3].textContent;
+            if (!period) {
+                // Assume 24-hour format
+                return hours * 60 + minutes;
+            }
 
-                const alreadySelected = Array.from(selectedSubjectsTableBody.children).some(r => {
-                    const selectedCourseCode = r.children[0].textContent;
-                    const selectedTime = r.children[2].textContent;
-                    const selectedDays = r.children[3].textContent;
+            if (period === "PM" && hours !== 12) hours += 12;
+            if (period === "AM" && hours === 12) hours = 0;
 
-                    return (
-                        selectedCourseCode === courseCode ||
-                        (selectedTime === time && selectedDays === days)
-                    );
-                });
+            return hours * 60 + minutes;
+        }
+        document.getElementById("timeSlotTableBody").addEventListener("click", function (e) {
+            if (e.target && e.target.classList.contains("select-time-btn")) {
+                const row = e.target.closest("tr");
+                const day = row.children[0].textContent.trim();
+                const timeRange = row.children[1].textContent.trim();
+                const room = row.children[2].textContent.trim();
+                const subject = window.currentSubject;
 
-                if (alreadySelected) {
-                    alert('This subject or a conflicting schedule has already been selected.');
+                const courseCode = subject.courseCode;
+                const [startTimeStr, endTimeStr] = timeRange.split(" - ");
+
+                // Check if already added
+                const existingRows = selectedSubjectsTableBody.querySelectorAll("tr");
+// Allow multiple sessions of the same subject
+                let duplicateSession = false;
+
+                for (const r of existingRows) {
+                    const code = r.children[0].textContent.trim();
+                    const descCell = r.children[1];
+                    const html = descCell.innerHTML;
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, "text/html");
+                    const smallTag = doc.querySelector("small");
+
+                    if (!smallTag) continue;
+
+                    const text = smallTag.textContent;
+                    const parts = text.split(" • ");
+                    if (parts.length < 3) continue;
+
+                    const selectedDay = parts[0];
+                    const selectedTimeRange = parts[1];
+
+                    // If same course code and same day → treat as duplicate
+                    if (code === courseCode && selectedDay === day) {
+                        duplicateSession = true;
+                        break;
+                    }
+                }
+                if (duplicateSession) {
+                    alert("You've already selected this subject on the same day.");
                     return;
                 }
 
-                const subjectData = {
-                    courseCode: courseCode,
-                    title: row.children[1].textContent,
-                    time: time,
-                    days: days,
-                    room: row.children[4].textContent,
-                    units: parseInt(row.children[5].textContent)
-                };
+                // Parse start/end times into minutes since midnight
+                const startMinutes = convertTimeToMinutes(startTimeStr);
+                const endMinutes = convertTimeToMinutes(endTimeStr);
 
-                selectedSubjects[courseCode] = subjectData;
+                let conflictFound = false;
 
-                const clone = row.cloneNode(true);
-                const addBtn = clone.querySelector('.add-subject-btn');
+                for (const r of existingRows) {
+                    const descCell = r.children[1];
+                    const html = descCell.innerHTML;
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, "text/html");
+                    const smallTag = doc.querySelector("small");
+
+                    if (smallTag) {
+                        const text = smallTag.textContent;
+                        const parts = text.split(" • ");
+                        if (parts.length >= 3) {
+                            const selectedDay = parts[0];
+                            const selectedTimeRange = parts[1];
+
+                            if (selectedDay === day) { // Only check if same day
+                                const [selStart, selEnd] = selectedTimeRange.split(" - ");
+                                const selStartMin = convertTimeToMinutes(selStart);
+                                const selEndMin = convertTimeToMinutes(selEnd);
+
+                                // Time overlap logic
+                                if (
+                                    (startMinutes < selEndMin && endMinutes > selStartMin) ||
+                                    (selStartMin < endMinutes && selEndMin > startMinutes)
+                                ) {
+                                    conflictFound = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (conflictFound) {
+                    alert("This time slot overlaps with another selected subject.");
+                    return;
+                }
+
+                // If no conflict or duplicate, proceed
+                const newRow = subject.rowElement.cloneNode(true);
+                const addBtn = newRow.querySelector('.add-subject-btn');
                 addBtn.classList.remove('btn-success', 'add-subject-btn');
                 addBtn.classList.add('btn-danger', 'remove-subject-btn');
                 addBtn.textContent = 'Remove';
 
-                selectedSubjectsTableBody.appendChild(clone);
+                newRow.children[1].innerHTML += `<br><small class="text-muted">${day} • ${timeRange} • ${room}</small>`;
+                selectedSubjectsTableBody.appendChild(newRow);
+
+                const timeSlotModalInstance = bootstrap.Modal.getInstance(document.getElementById('timeSlotModal'));
+                timeSlotModalInstance.hide();
+
                 updateTotalUnits();
+            }
+        });
+        
+        
+        
+
+// When user clicks "Add" on a subject
+        availableSubjectsTableBody.addEventListener('click', function (e) {
+            if (e.target.classList.contains('add-subject-btn')) {
+                const row = e.target.closest('tr');
+                const courseCode = row.children[0].textContent;
+                const title = row.children[1].textContent;
+
+                // Store subject info temporarily
+                window.currentSubject = {
+                    courseCode,
+                    title,
+                    rowElement: row.cloneNode(true)
+                };
+
+                // Clear previous session data
+                const timeSlotTableBody = document.getElementById("timeSlotTableBody");
+                timeSlotTableBody.innerHTML = '';
+
+                // Fetch available sessions for this subject
+                fetch(`/StudentEnrollment/GetSubjectSessions?courseCode=${encodeURIComponent(courseCode)}`)
+                    .then(response => response.json())
+                    .then(sessions => {
+                        if (!sessions || sessions.length === 0) {
+                            timeSlotTableBody.innerHTML = '<tr><td colspan="4">No available sessions.</td></tr>';
+                            return;
+                        }
+
+                        sessions.forEach(session => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                        <td>${session.Day}</td>
+                        <td>${session.Time}</td>
+                        <td>${session.Room}</td>
+                        <td><button class="btn btn-primary btn-sm select-time-btn">Select</button></td>
+                    `;
+                            timeSlotTableBody.appendChild(tr);
+                        });
+                    })
+                    .catch(err => {
+                        console.error('Error fetching sessions:', err);
+                        timeSlotTableBody.innerHTML = '<tr><td colspan="4">Failed to load sessions.</td></tr>';
+                    });
+
+                // Show modal
+                const timeSlotModal = new bootstrap.Modal(document.getElementById('timeSlotModal'));
+                timeSlotModal.show();
             }
         });
 
@@ -379,5 +530,7 @@
         });
     });
 </script>
+
+
 </body>
 </html>
