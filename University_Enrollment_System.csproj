@@ -202,10 +202,13 @@
     <Compile Include="Models\Prerequisite.cs" />
     <Compile Include="Models\Program.cs" />
     <Compile Include="Models\Schedule.cs" />
+    <Compile Include="Models\ScheduleView.cs" />
     <Compile Include="Models\Semester.cs" />
     <Compile Include="Models\Session.cs" />
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\SubjectSessionModel.cs" />
     <Compile Include="Models\SubjectView.cs" />
+    <Compile Include="Models\YearLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\PasswordUtil.cs" />
   </ItemGroup>
