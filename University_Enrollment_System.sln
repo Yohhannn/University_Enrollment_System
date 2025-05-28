@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35931.197 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fresh_University_Enrollment", "Fresh_University_Enrollment.csproj", "{D709468C-E4B7-4994-97CC-55EF33E3F2BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "University_Enrollment_System", "University_Enrollment_System.csproj", "{D709468C-E4B7-4994-97CC-55EF33E3F2BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,7 +17,7 @@ Global
 		{D709468C-E4B7-4994-97CC-55EF33E3F2BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
+		HideSolutionNode = FALSE    
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {30169B27-0C99-46A5-B4C6-C6E3E3C14A50}

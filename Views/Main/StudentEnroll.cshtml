@@ -1,8 +1,7 @@
-@model Fresh_University_Enrollment.Models.Student
+@model University_Enrollment_System.Models.Student
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enrollment - Enrollment System</title>
     <link rel="stylesheet" href="@Url.Content("~/Content/bootstrap.min.css")">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com ">
+    <link rel="preconnect" href="https://fonts.gstatic.com " crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter :wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -41,11 +40,9 @@
 </head>
 <body>
 @Html.Partial("_MainHeader")
-
 <div class="container content-section">
     <h1 class="mb-4">Student Enrollment</h1>
     <p class="lead">Begin your enrollment process, select subjects, and confirm your course load for the upcoming academic term.</p>
-
     <div class="card mt-4">
         <div class="card-body">
             <h5 class="card-title mb-4">Student Information</h5>
@@ -57,47 +54,27 @@
                         @Html.TextBoxFor(model => model.Stud_Code, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
-
                 <div class="row mb-4">
                     <div class="col-md-3">
                         <label class="form-label">Academic Year</label>
-                        <select class="form-select" name="Academic Year" id="schoolYear">
+                        <select class="form-select" name="AcademicYear" id="schoolYear">
                             <option selected disabled>Choose S.Y...</option>
                             @{
-                                var academicYears = ViewBag.AcademicYears as List<Fresh_University_Enrollment.Models.AcademicYear>;
+                                var academicYears = ViewBag.AcademicYears as List<University_Enrollment_System.Models.AcademicYear>;
                             }
                             @if (academicYears != null && academicYears.Any())
                             {
-                                foreach (var academicYear in academicYears)
+                                foreach (var ay in academicYears)
                                 {
-                                    <option value="@academicYear.AyCode">@($"{academicYear.AyStartYear}-{academicYear.AyEndYear}")</option>
+                                    <option value="@ay.AyCode">@($"{ay.AyStartYear}-{ay.AyEndYear}")</option>
                                 }
                             }
                             else
                             {
-                                <option disabled>No academic year found</option>
+                                <option disabled>No Academic Year found</option>
                             }
-
-                            @* @{ *@
-                            @*     var academicYears = ViewBag.AcademicYears as List<Fresh_University_Enrollment.Models.AcademicYear>; *@
-                            @* } *@
-                            @* @if (academicYears?.Any() == true) *@
-                            @* { *@
-                            @*     foreach (var academicYear in academicYears) *@
-                            @*     { *@
-                            @*         <option value="@academicYear.AyCode"> *@
-                            @*             @($"{academicYear.AyStartYear}-{academicYear.AyEndYear}") *@
-                            @*         </option> *@
-                            @*     } *@
-                            @* } *@
-                            @* else *@
-                            @* { *@
-                            @*     <option disabled>No Academic Year found</option> *@
-                            @* } *@
                         </select>
-
                     </div>
-                    
                     <div class="col-md-3">
                         <label class="form-label">Semester</label>
                         <select class="form-select" name="enrollmentSemester" id="enrollmentSemester">
@@ -126,7 +103,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <label class="form-label">Last Name</label>
@@ -141,12 +117,10 @@
                         @Html.TextBoxFor(model => model.Stud_Mname, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
-
                 <div class="mb-3">
                     <label class="form-label">Home Address</label>
                     @Html.TextBoxFor(model => model.Stud_Address, new { @class = "form-control", @readonly = "readonly" })
                 </div>
-
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label class="form-label">Contact Number</label>
@@ -157,7 +131,6 @@
                         @Html.TextBoxFor(model => model.Stud_Email, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
-
                 <div class="row mb-4">
                     <div class="col-md-3">
                         <label class="form-label">Year Level</label>
@@ -169,19 +142,18 @@
                             <option value="4th Year">4th Year</option>
                         </select>
                     </div>
-
                     <div class="col-md-3">
                         <label class="form-label">Program</label>
                         <select class="form-select" name="program" id="program">
-                            <option value="" selected disabled>Choose Program...</option>
+                            <option selected disabled>Choose Program...</option>
                             @{
-                                var programs = ViewBag.Programs as List<Fresh_University_Enrollment.Models.Program>;
+                                var programs = ViewBag.Programs as List<University_Enrollment_System.Models.Program>;
                             }
                             @if (programs != null && programs.Any())
                             {
-                                foreach (var program in programs)
+                                foreach (var p in programs)
                                 {
-                                    <option value="@program.ProgCode">@program.ProgTitle</option>
+                                    <option value="@p.ProgCode">@p.ProgTitle</option>
                                 }
                             }
                             else
@@ -195,13 +167,10 @@
                         <input type="text" class="form-control" name="blockSection" placeholder="e.g., IT-A">
                     </div>
                 </div>
-
                 <hr class="my-4">
-
                 <h5 class="card-title">Subject Selection</h5>
                 <p class="text-danger">Note: ONLY Irregular Students will fill out this section.</p>
                 <button type="button" class="btn btn-info mb-3" id="selectSubjectsBtn">SELECT SUBJECTS</button>
-
                 <div id="subjectSelectionArea">
                     <h5 class="card-title">Available Subjects</h5>
                     <div class="table-responsive mb-3">
@@ -218,12 +187,9 @@
                             </tr>
                             </thead>
                             <tbody id="availableSubjectsTableBody">
-                            <tr>
-                            </tr>
                             </tbody>
                         </table>
                     </div>
-
                     <h6 class="mb-2">Selected Subjects</h6>
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped">
@@ -244,7 +210,6 @@
                     </div>
                     <p class="card-text mt-3"><strong>Total Units:</strong> <span id="totalUnitsDisplay">0</span></p>
                 </div>
-
                 <button type="submit" class="btn btn-primary mt-4">CONFIRM ENROLLMENT</button>
             }
         </div>
@@ -254,14 +219,14 @@
 <script src="@Url.Content("~/Scripts/bootstrap.bundle.min.js")"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        
         const selectSubjectsBtn = document.getElementById('selectSubjectsBtn');
         const subjectSelectionArea = document.getElementById('subjectSelectionArea');
         const availableSubjectsTableBody = document.getElementById('availableSubjectsTableBody');
         const selectedSubjectsTableBody = document.getElementById('selectedSubjectsTableBody');
         const totalUnitsDisplay = document.getElementById('totalUnitsDisplay');
 
-
+        // Dictionary to store selected subjects
+        const selectedSubjects = {};
 
         selectSubjectsBtn.addEventListener('click', function () {
             const semester = document.getElementById('enrollmentSemester').value;
@@ -277,58 +242,71 @@
             loadAvailableSubjects(semester, yearLevel, program);
         });
 
-
-
-        // Load subjects from API and populate table
         function loadAvailableSubjects(semester, yearLevel, program) {
             const url = `@Url.Action("GetAvailableSubjects", "StudentEnrollment")` +
-                `?cur_semester=${semester}&cur_year_level=${yearLevel}&prog_code=${program}`;
+                `?cur_semester=${encodeURIComponent(semester)}&cur_year_level=${encodeURIComponent(yearLevel)}&prog_code=${encodeURIComponent(program)}`;
 
             fetch(url)
                 .then(response => response.json())
                 .then(subjects => {
-                    availableSubjectsTableBody.innerHTML = ''; // Clear existing rows
-
+                    availableSubjectsTableBody.innerHTML = '';
                     subjects.forEach(sub => {
                         const row = document.createElement('tr');
-
                         row.innerHTML = `
-                    <td>${sub.CourseCode}</td>
-                    <td>${sub.Title}</td>
-                    <td>${sub.Time}</td>
-                    <td>${sub.Days}</td>
-                    <td>${sub.Room}</td>
-                    <td class="units-cell">${sub.Units}</td>
-                    <td><button type="button" class="btn btn-success btn-sm add-subject-btn">Add</button></td>
-                `;
-
+                            <td>${sub.CourseCode}</td>
+                            <td>${sub.Title}</td>
+                            <td>${sub.Time}</td>
+                            <td>${sub.Days}</td>
+                            <td>${sub.Room}</td>
+                            <td class="units-cell">${sub.Units}</td>
+                            <td><button type="button" class="btn btn-success btn-sm add-subject-btn">Add</button></td>
+                        `;
                         availableSubjectsTableBody.appendChild(row);
                     });
                 })
-                .catch(error => {
-                    console.error('Error fetching subjects:', error);
-                });
+                .catch(error => console.error('Error fetching subjects:', error));
         }
-
 
         availableSubjectsTableBody.addEventListener('click', function (e) {
             if (e.target.classList.contains('add-subject-btn')) {
                 const row = e.target.closest('tr');
-                // Prevent adding duplicate subjects:
                 const courseCode = row.children[0].textContent;
-                const alreadySelected = Array.from(selectedSubjectsTableBody.children)
-                    .some(r => r.children[0].textContent === courseCode);
+                const time = row.children[2].textContent;
+                const days = row.children[3].textContent;
+
+                const alreadySelected = Array.from(selectedSubjectsTableBody.children).some(r => {
+                    const selectedCourseCode = r.children[0].textContent;
+                    const selectedTime = r.children[2].textContent;
+                    const selectedDays = r.children[3].textContent;
+
+                    return (
+                        selectedCourseCode === courseCode ||
+                        (selectedTime === time && selectedDays === days)
+                    );
+                });
 
                 if (alreadySelected) {
-                    alert('Subject already selected.');
+                    alert('This subject or a conflicting schedule has already been selected.');
                     return;
                 }
+
+                const subjectData = {
+                    courseCode: courseCode,
+                    title: row.children[1].textContent,
+                    time: time,
+                    days: days,
+                    room: row.children[4].textContent,
+                    units: parseInt(row.children[5].textContent)
+                };
+
+                selectedSubjects[courseCode] = subjectData;
 
                 const clone = row.cloneNode(true);
                 const addBtn = clone.querySelector('.add-subject-btn');
                 addBtn.classList.remove('btn-success', 'add-subject-btn');
                 addBtn.classList.add('btn-danger', 'remove-subject-btn');
                 addBtn.textContent = 'Remove';
+
                 selectedSubjectsTableBody.appendChild(clone);
                 updateTotalUnits();
             }
@@ -336,20 +314,70 @@
 
         selectedSubjectsTableBody.addEventListener('click', function (e) {
             if (e.target.classList.contains('remove-subject-btn')) {
-                e.target.closest('tr').remove();
+                const row = e.target.closest('tr');
+                const courseCode = row.children[0].textContent;
+
+                delete selectedSubjects[courseCode];
+                row.remove();
                 updateTotalUnits();
             }
         });
 
         function updateTotalUnits() {
             let total = 0;
-            document.querySelectorAll('#selectedSubjectsTableBody .units-cell').forEach(cell => {
-                total += parseInt(cell.textContent) || 0;
+            Object.values(selectedSubjects).forEach(sub => {
+                total += sub.units || 0;
             });
             totalUnitsDisplay.textContent = total;
         }
-    });
 
+        // Handle form submission
+        document.getElementById("enrollmentForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const academicYear = document.getElementById("schoolYear").value;
+            const semester = document.getElementById("enrollmentSemester").value;
+            const studentStatus = document.querySelector("select[name='studentStatus']").value;
+            const enrollmentStatus = document.querySelector("select[name='enrollmentStatus']").value;
+            const yearLevel = document.getElementById("yearLevel").value;
+            const program = document.getElementById("program").value;
+            const blockSection = document.querySelector("input[name='blockSection']").value;
+            const studId = document.querySelector("[name='Stud_Code']").value;
+
+            const enrollmentData = {
+                EnrolStatus: enrollmentStatus,
+                EnrolDate: new Date().toISOString(),
+                EnrolYrLevel: yearLevel,
+                EnrolSem: semester,
+                StudId: studId,
+                AyCode: academicYear,
+                BlockSection: blockSection,
+                StudentStatus: studentStatus,
+                Subjects: Object.values(selectedSubjects)
+            };
+
+            fetch('/StudentEnrollment/SubmitEnrollment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(enrollmentData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Enrollment submitted successfully!');
+                        window.location.href = '/StudentEnrollment/EnrollmentSuccess';
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An unexpected error occurred.');
+                });
+        });
+    });
 </script>
 </body>
 </html>

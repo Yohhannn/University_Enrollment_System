@@ -1,4 +1,4 @@
-﻿namespace Fresh_University_Enrollment.Models
+﻿namespace University_Enrollment_System.Models
 {
     public class CourseCategory
     {

@@ -57,7 +57,7 @@
                 <label for="courseCategory" class="form-label">Course Category:</label>
                 <select class="form-select" id="courseCategory" name="Ctg_Code" required>
                     <option value="" selected disabled>Select Category...</option>
-                    @foreach (var category in ViewBag.CourseCategories as List<Fresh_University_Enrollment.Models.CourseCategory>)
+                    @foreach (var category in ViewBag.CourseCategories as List<University_Enrollment_System.Models.CourseCategory>)
                     {
                     <option value="@category.Ctg_Code">@category.Ctg_Name</option>
                     }
@@ -84,7 +84,7 @@
             <div class="mb-3">
                 <label for="prerequisite" class="form-label">Co-/Prerequisites:</label>
                 <select class="form-select" id="prerequisite" name="Preq_Crs_Code" multiple="multiple">
-                    @foreach (var course in ViewBag.CoursesForPrereq as List<Fresh_University_Enrollment.Models.Course>)
+                    @foreach (var course in ViewBag.CoursesForPrereq as List<University_Enrollment_System.Models.Course>)
                     {
                     <option value="@course.Crs_Code">@course.Crs_Code - @course.Crs_Title</option>
                     }
